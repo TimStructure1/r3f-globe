@@ -319,7 +319,7 @@ export const Labels = ptProps => {
 
   return createElement(R3fGlobe, {
     ...ptProps,
-    globeImageUrl: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
     labelsData: gData,
     labelText: 'label',
     labelSize: 'size',
@@ -339,7 +339,7 @@ export const HTMLElements = ptProps => {
 
   return createElement(R3fGlobe, {
     ...ptProps,
-    globeImageUrl: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg',
     htmlElementsData: gData,
     htmlElement: d => {
       const el = document.createElement('div');
@@ -363,7 +363,7 @@ export const CustomObjects = ptProps => {
 
   return createElement(R3fGlobe, {
     ...ptProps,
-    globeImageUrl: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
     objectsData: gData,
     objectLat: 'lat',
     objectLng: 'lng',
@@ -390,7 +390,7 @@ export const Particles = ptProps => {
   return createElement(R3fGlobe, {
     ...ptProps,
     backgroundColor: 'rgba(0,0,0,1)',
-    globeImageUrl: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg',
     customLayerData: gData,
     customThreeObject: d => new THREE.Mesh(
       new THREE.SphereGeometry(0.3),
@@ -405,7 +405,7 @@ export const Particles = ptProps => {
 export const Graticules = ptProps => {
   return createElement(R3fGlobe, {
     ...ptProps,
-    globeImageUrl: '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
     showGraticules: true,
     showAtmosphere: true,
     atmosphereColor: 'lightskyblue',
@@ -414,6 +414,8 @@ export const Graticules = ptProps => {
 }
 
 export const TileEngine = ptProps => {
+  // Note: OpenStreetMap tile usage requires attribution.
+  // See: https://operations.osmfoundation.org/policies/tiles/
   return createElement(R3fGlobe, {
     ...ptProps,
     globeTileEngineUrl: (x, y, l) => `https://tile.openstreetmap.org/${l}/${x}/${y}.png`,
