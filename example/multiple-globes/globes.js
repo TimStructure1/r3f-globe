@@ -308,4 +308,120 @@ export const Shield = ptProps => {
   });
 }
 
-export default [HexedPolygons, Ripples, Paths, Points, Shield, CountryPolygons, Hollow, Hexbin, Tiles, Heatmap, Population, Arcs, Moon];
+export const Labels = ptProps => {
+  const N = 20;
+  const gData = useMemo(() => [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    label: `City ${Math.floor(Math.random() * 1000)}`,
+    size: 0.5 + Math.random() * 1.5
+  })), [N]);
+
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+    labelsData: gData,
+    labelText: 'label',
+    labelSize: 'size',
+    labelDotRadius: 0.3,
+    labelColor: () => 'orange',
+    labelResolution: 2
+  });
+}
+
+export const HTMLElements = ptProps => {
+  const N = 15;
+  const gData = useMemo(() => [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    text: ['🏙️', '🏭', '🏛️', '🗼', '🏰'][Math.floor(Math.random() * 5)]
+  })), [N]);
+
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg',
+    htmlElementsData: gData,
+    htmlElement: d => {
+      const el = document.createElement('div');
+      el.innerHTML = d.text;
+      el.style.fontSize = '20px';
+      el.style.pointerEvents = 'none';
+      el.style.userSelect = 'none';
+      return el;
+    }
+  });
+}
+
+export const CustomObjects = ptProps => {
+  const N = 12;
+  const gData = useMemo(() => [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    altitude: 0.05 + Math.random() * 0.15,
+    color: ['#ff0000', '#00ff00', '#0000ff', '#ffff00'][Math.floor(Math.random() * 4)]
+  })), [N]);
+
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
+    objectsData: gData,
+    objectLat: 'lat',
+    objectLng: 'lng',
+    objectAltitude: 'altitude',
+    objectThreeObject: d => {
+      const obj = new THREE.Mesh(
+        new THREE.SphereGeometry(2, 8, 8),
+        new THREE.MeshLambertMaterial({ color: d.color })
+      );
+      return obj;
+    }
+  });
+}
+
+export const Particles = ptProps => {
+  const N = 1500;
+  const gData = useMemo(() => [...Array(N).keys()].map(() => ({
+    lat: (Math.random() - 0.5) * 180,
+    lng: (Math.random() - 0.5) * 360,
+    altitude: Math.random() * 0.8,
+    color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.8)`
+  })), [N]);
+
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    backgroundColor: 'rgba(0,0,0,1)',
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-dark.jpg',
+    customLayerData: gData,
+    customThreeObject: d => new THREE.Mesh(
+      new THREE.SphereGeometry(0.3),
+      new THREE.MeshBasicMaterial({ color: d.color })
+    ),
+    customThreeObjectUpdate: (obj, d) => {
+      Object.assign(obj.position, d.position);
+    }
+  });
+}
+
+export const Graticules = ptProps => {
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    globeImageUrl: 'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg',
+    showGraticules: true,
+    showAtmosphere: true,
+    atmosphereColor: 'lightskyblue',
+    atmosphereAltitude: 0.25
+  });
+}
+
+export const TileEngine = ptProps => {
+  // Note: OpenStreetMap tile usage requires attribution.
+  // See: https://operations.osmfoundation.org/policies/tiles/
+  return createElement(R3fGlobe, {
+    ...ptProps,
+    globeTileEngineUrl: (x, y, l) => `https://tile.openstreetmap.org/${l}/${x}/${y}.png`,
+    showAtmosphere: false,
+    showGraticules: false
+  });
+}
+
+export default [HexedPolygons, Ripples, Paths, Points, Shield, CountryPolygons, Hollow, Hexbin, Tiles, Heatmap, Population, Arcs, Moon, Labels, HTMLElements, CustomObjects, Particles, Graticules, TileEngine];
